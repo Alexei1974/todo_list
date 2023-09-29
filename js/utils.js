@@ -1,12 +1,21 @@
 import { doneSvg, pinnedSvg, delSvg, editSvg } from "./svg.js";
 
+
+let formCount = document.querySelector('.form__count');
+let formDescr = document.querySelector('.form__descr');
+
+
+
+
 export function getTasksLocalStorage() {
     const tasksJSON = localStorage.getItem('tasks');
+
     return tasksJSON ? JSON.parse(tasksJSON) : [];
 }
 
 export function setTasksLocalStorage(tasks) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    formCount.textContent = tasks.length;
 }
 
 export function generateUniqueId() {
@@ -22,25 +31,43 @@ export function updateListTasks() {
     renderTasks(arrayTasksLS);
 }
 
-function renderTasks(tasks) {
+export function renderTasks(tasks) {
+
     if (!tasks || !tasks.length) return;
+
+    formCount.textContent = tasks.length;
+    
+if(formCount.textContent > 5) {
+    formCount.style.backgroundColor = "red";
+    formDescr.classList.remove('none');
+}
+else{
+    formCount.style.backgroundColor = "";
+    formDescr.classList.add('none');
+}
 
     tasks.sort((a, b) => {
         if (a.done !== b.done) {
+
             return a.done ? 1 : -1;
+
         }
         if (a.pinned !== b.pinned) {
             return a.pinned ? -1 : 1;
         }
+
         return a.position - b.position;
+
     })
-    .forEach((value, i) => {
-        const { id, task, pinned, done } = value;
-        const item = 
-            `
+        .forEach((value, i) => {
+            const { id, task, pinned, done, } = value;
+
+            const item =
+                `
             <div class="task ${done ? 'done' : ''} ${pinned ? 'pinned' : ''}" data-task-id="${id}" draggable="true">
                 <p class="task__text">${task}</p>
                 <span class="task__index ${done ? 'none' : ''}">${i + 1}</span>
+                
                 <div class="task__btns">
                     <button class="task__done ${done ? 'active' : ''}">${doneSvg}</button>
                     <button class="task__pinned ${pinned ? 'active' : ''}">${pinnedSvg}</button>
@@ -49,11 +76,27 @@ function renderTasks(tasks) {
                 </div>
             </div>
             `
-        document.querySelector('.output').insertAdjacentHTML('beforeend', item)
-    });
+
+            document.querySelector('.output').insertAdjacentHTML('beforeend', item)
+            if (done) {
+                (formCount.textContent--)
+            }
+            if(formCount.textContent > 5) {
+                formCount.style.backgroundColor = "red";
+                formDescr.classList.remove('none');
+            }
+            else{
+                formCount.style.backgroundColor = "";
+                formDescr.classList.add('none');
+            }
+
+        });
 
     activationDrag();
 }
+
+
+
 
 function activationDrag() {
     const tasks = [...document.querySelectorAll('.task')];
@@ -64,11 +107,13 @@ function activationDrag() {
         });
         item.addEventListener('dragend', () => {
             item.classList.remove("dragging");
-            if(tasks.length > 1) {
+            if (tasks.length > 1) {
                 savePositionTask();
             }
         })
+
     });
+
 }
 
 function savePositionTask() {
@@ -81,7 +126,9 @@ function savePositionTask() {
         if (index !== -1) {
             arrayTasksLS[index].position = i;
         }
+
     });
+
 
     setTasksLocalStorage(arrayTasksLS)
     updateListTasks()

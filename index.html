@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,11 +10,15 @@
     <link rel="stylesheet" href="./style/style.css">
     <script type="module" src="./js/index.js" defer></script>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="inner">
             <form class="form">
-                <h4 class="form__title">Введите задачу</h4>
+                <h4 class="form__title">Введите задачу
+                    <span class="form__count">0</span>
+                    <span class="form__descr none">пора решать  задачи</span>
+                </h4>
                 <textarea class="form__textarea"></textarea>
                 <button class="form__send-btn" type="submit">Добавить</button>
                 <button class="form__cancel-btn none" type="button">Отмена</button>
@@ -21,6 +26,7 @@
             <div class="output"></div>
         </div>
     </div>
-    
+
 </body>
+
 </html>

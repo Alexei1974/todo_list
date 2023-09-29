@@ -59,6 +59,29 @@
     display: flex;
     cursor: move;
 }
+.form__title{
+   display: flex;
+   flex-wrap: wrap;
+   gap: 5px;
+}
+.form__count{
+    background-color: #49bd66;
+    color: #fff;
+    border-radius: 50%;
+    min-width: 25px;
+    padding: 0 5px;
+    min-height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   transform: translateY(-10px);
+}
+.form__descr{
+font-size: 14px;
+    width: 100%;
+    color: red;
+    text-transform: uppercase;
+}
 
 @media (min-width: 800px) {
     .task.dragging {

@@ -6,8 +6,12 @@ import {
     setTasksLocalStorage,
     generateUniqueId,
     initSortableList,
-    updateListTasks
+    updateListTasks,
+    renderTasks,
 } from "./utils.js";
+
+
+let formCount = document.querySelector('.form__count');
 
 const form = document.querySelector('.form');
 const textareaForm = document.querySelector('.form__textarea');
@@ -39,6 +43,7 @@ output.addEventListener('click', event => {
         delTask(event);
     } else if (event.target.closest('.task__done')) {
         doneTask(event);
+       
     }
 })
 
@@ -77,6 +82,7 @@ function doneTask(event) {
 
     const arrayTasksLS = getTasksLocalStorage();
     const index = arrayTasksLS.findIndex(task => task.id === id);
+   
 
     if (index === -1) {
         return alert('Такая задача не найдена');
@@ -88,12 +94,16 @@ function doneTask(event) {
 
     if (arrayTasksLS[index].done) {
         arrayTasksLS[index].done = false;
+       
     } else {
         arrayTasksLS[index].done = true;
+        // console.log(formCount.textContent --);
     }
-
+    
     setTasksLocalStorage(arrayTasksLS)
+    renderTasks()
     updateListTasks();
+    
 }
 
 function pinnedTask(event) {
